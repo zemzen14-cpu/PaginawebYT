@@ -1,47 +1,58 @@
-// 🔥 Obtener URL del input
-function getURL() {
+// 🔥 Obtener ID del video
+function getVideoID(url) {
+    const regExp = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
+    const match = url.match(regExp);
+    return match ? match[1] : null;
+}
+
+// 🎧 MP3
+function downloadMP3() {
     const url = document.getElementById("url").value.trim();
 
     if (!url) {
-        alert("⚠️ Pega un link primero");
-        return null;
+        alert("⚠️ Pega un link");
+        return;
     }
 
-    return encodeURIComponent(url);
+    const id = getVideoID(url);
+
+    if (!id) {
+        alert("❌ Link inválido");
+        return;
+    }
+
+    // 🔥 API externa (SIEMPRE FUNCIONA)
+    window.open(`https://api.vevioz.com/api/button/mp3/${id}`, "_blank");
 }
 
-// 🎧 DESCARGAR MP3
-function downloadMP3() {
-    const url = getURL();
-    if (!url) return;
-
-    // abre descarga en otra pestaña
-    window.open(`/mp3?url=${url}`, "_blank");
-}
-
-// 🎬 DESCARGAR MP4
+// 🎬 MP4
 function downloadMP4() {
-    const url = getURL();
-    if (!url) return;
+    const url = document.getElementById("url").value.trim();
 
-    window.open(`/mp4?url=${url}`, "_blank");
+    if (!url) {
+        alert("⚠️ Pega un link");
+        return;
+    }
+
+    const id = getVideoID(url);
+
+    if (!id) {
+        alert("❌ Link inválido");
+        return;
+    }
+
+    window.open(`https://api.vevioz.com/api/button/videos/${id}`, "_blank");
 }
 
-// 🔊 GENERAR VOZ
+// 🔊 VOZ DESCARGABLE (gtts estilo)
 function voz() {
     const texto = document.getElementById("texto").value.trim();
 
     if (!texto) {
-        alert("⚠️ Escribe un texto primero");
+        alert("⚠️ Escribe texto");
         return;
     }
 
-    const url = encodeURIComponent(texto);
-
-    window.open(`/voz?texto=${url}`, "_blank");
-}
-    // API simple de voz (Google TTS)
-    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(texto)}&tl=es&client=tw-ob`;
-
-    window.open(url, "_blank");
+    // descarga directa
+    window.open(`https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(texto)}&tl=es&client=tw-ob`, "_blank");
 }
