@@ -1,0 +1,97 @@
+/* 🔥 RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* 🌑 FONDO */
+body {
+  background: #000;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* 📦 CONTENEDOR */
+.container {
+  width: 90%;
+  max-width: 400px;
+  background: #111;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 0 25px rgba(255, 0, 80, 0.2);
+  text-align: center;
+}
+
+/* 🔥 TÍTULO */
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #ff0050, #00f2ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 📥 INPUT */
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: #222;
+  color: white;
+  margin-bottom: 15px;
+}
+
+/* 🎯 BOTONES */
+button {
+  width: 100%;
+  padding: 12px;
+  margin: 6px 0;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* 🎧 MP3 */
+button:nth-child(3) {
+  background: #ff0050;
+  color: white;
+}
+
+/* 🎬 MP4 */
+button:nth-child(4) {
+  background: #00f2ea;
+  color: black;
+}
+
+/* 🔊 VOZ */
+button:nth-child(6) {
+  background: #444;
+  color: white;
+}
+
+/* ✨ EFECTO HOVER */
+button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* 🌟 EFECTO GLOW */
+button:active {
+  box-shadow: 0 0 15px rgba(255, 0, 80, 0.6);
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 500px) {
+  .container {
+    padding: 20px;
+  }
+}
