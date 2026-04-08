@@ -2,82 +2,44 @@ async function downloadMP3() {
     const url = document.getElementById("url").value;
 
     if (!url) {
-        alert("⚠️ Pega un link");
+        alert("❌ Pon un link");
         return;
     }
 
-    showLoading("Convirtiendo MP3...");
-
     try {
-        const link = `https://api.cobalt.tools/api/json`;
-
-        const res = await fetch(link, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                url: url,
-                vCodec: "h264",
-                vQuality: "720",
-                aFormat: "mp3"
-            })
-        });
-
-        const data = await res.json();
-
-        hideLoading();
-
-        if (data.url) {
-            window.open(data.url, "_blank");
-        } else {
-            alert("❌ No se pudo convertir");
-        }
-
-    } catch (err) {
-        hideLoading();
-        alert("❌ Error real de servidor");
+        const api = `https://api.vevioz.com/api/button/mp3/${encodeURIComponent(url)}`;
+        window.open(api, "_blank");
+    } catch (e) {
+        alert("❌ Error al convertir MP3");
     }
 }
-
 
 async function downloadMP4() {
     const url = document.getElementById("url").value;
 
     if (!url) {
-        alert("⚠️ Pega un link");
+        alert("❌ Pon un link");
         return;
     }
 
-    showLoading("Convirtiendo MP4...");
-
     try {
-        const link = `https://api.cobalt.tools/api/json`;
-
-        const res = await fetch(link, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                url: url,
-                vCodec: "h264",
-                vQuality: "720"
-            })
-        });
-
-        const data = await res.json();
-
-        hideLoading();
-
-        if (data.url) {
-            window.open(data.url, "_blank");
-        } else {
-            alert("❌ No se pudo convertir");
-        }
-
-    } catch (err) {
-        hideLoading();
-        alert("❌ Error real de servidor");
+        const api = `https://api.vevioz.com/api/button/mp4/${encodeURIComponent(url)}`;
+        window.open(api, "_blank");
+    } catch (e) {
+        alert("❌ Error al convertir MP4");
     }
+}
+
+function voz() {
+    const texto = document.getElementById("texto").value;
+
+    if (!texto) {
+        alert("❌ Escribe texto");
+        return;
+    }
+
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(texto)}&tl=es&client=tw-ob`;
+
+    const audio = new Audio(url);
+    audio.play();
 }
