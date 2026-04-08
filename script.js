@@ -1,58 +1,39 @@
-// 🔥 Obtener ID del video
-function getVideoID(url) {
-    const regExp = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/;
-    const match = url.match(regExp);
+// 🔥 obtener ID
+function getID(url) {
+    const reg = /(?:v=|youtu\.be\/)([^&]+)/;
+    const match = url.match(reg);
     return match ? match[1] : null;
 }
 
-// 🎧 MP3
+// 🎧 MP3 (abre downloader real)
 function downloadMP3() {
     const url = document.getElementById("url").value.trim();
+    const id = getID(url);
 
-    if (!url) {
-        alert("⚠️ Pega un link");
-        return;
-    }
+    if (!id) return alert("❌ Link inválido");
 
-    const id = getVideoID(url);
-
-    if (!id) {
-        alert("❌ Link inválido");
-        return;
-    }
-
-    // 🔥 API externa (SIEMPRE FUNCIONA)
-    window.open(`https://api.vevioz.com/api/button/mp3/${id}`, "_blank");
+    // 🔥 usa loader real web
+    window.open(`https://y2mate.nu/en/download?url=https://youtu.be/${id}`, "_blank");
 }
 
 // 🎬 MP4
 function downloadMP4() {
     const url = document.getElementById("url").value.trim();
+    const id = getID(url);
 
-    if (!url) {
-        alert("⚠️ Pega un link");
-        return;
-    }
+    if (!id) return alert("❌ Link inválido");
 
-    const id = getVideoID(url);
-
-    if (!id) {
-        alert("❌ Link inválido");
-        return;
-    }
-
-    window.open(`https://api.vevioz.com/api/button/videos/${id}`, "_blank");
+    window.open(`https://y2mate.nu/en/download?url=https://youtu.be/${id}`, "_blank");
 }
 
-// 🔊 VOZ DESCARGABLE (gtts estilo)
+// 🔊 VOZ REAL (sin errores)
 function voz() {
     const texto = document.getElementById("texto").value.trim();
 
-    if (!texto) {
-        alert("⚠️ Escribe texto");
-        return;
-    }
+    if (!texto) return alert("⚠️ escribe algo");
 
-    // descarga directa
-    window.open(`https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(texto)}&tl=es&client=tw-ob`, "_blank");
+    // 🔥 TTS funcional
+    const url = `https://api.streamelements.com/kappa/v2/speech?voice=Conchita&text=${encodeURIComponent(texto)}`;
+
+    window.open(url, "_blank");
 }
