@@ -1,37 +1,39 @@
-function downloadMP3() {
-    const url = document.getElementById('url').value;
+async function downloadMP3() {
+    const url = document.getElementById("url").value;
 
     if (!url) {
-        alert("⚠️ Pega un link de YouTube");
+        alert("Pon un link");
         return;
     }
 
-    window.open(`/mp3?url=${encodeURIComponent(url)}`, '_blank');
+    try {
+        const res = await fetch(`https://api.vevioz.com/api/button/mp3?url=${encodeURIComponent(url)}`);
+        const data = await res.text();
+
+        const win = window.open();
+        win.document.write(data);
+
+    } catch (err) {
+        alert("Error 😢");
+    }
 }
 
-function downloadMP4() {
-    const url = document.getElementById('url').value;
+async function downloadMP4() {
+    const url = document.getElementById("url").value;
 
     if (!url) {
-        alert("⚠️ Pega un link de YouTube");
+        alert("Pon un link");
         return;
     }
 
-    window.open(`/mp4?url=${encodeURIComponent(url)}`, '_blank');
-}
+    try {
+        const res = await fetch(`https://api.vevioz.com/api/button/videos?url=${encodeURIComponent(url)}`);
+        const data = await res.text();
 
-// EXTRA: voz (opcional si quieres)
-function voz() {
-    const texto = document.getElementById('texto').value;
+        const win = window.open();
+        win.document.write(data);
 
-    if (!texto) {
-        alert("⚠️ Escribe algo primero");
-        return;
+    } catch (err) {
+        alert("Error 😢");
     }
-
-    const speech = new SpeechSynthesisUtterance(texto);
-    speech.lang = "es-ES";
-    speech.rate = 1;
-
-    speechSynthesis.speak(speech);
 }
