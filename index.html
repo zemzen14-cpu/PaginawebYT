@@ -1,24 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🔥 YouTube Converter PRO</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
 <body>
 
 <div class="container">
 
-<h1>🔥 YouTube Converter</h1>
+    <h1>🔥 YouTube Converter</h1>
+    <p class="subtitle">Convierte videos a MP3 o MP4 fácil ⚡</p>
 
-<input type="text" id="url" placeholder="Pega link de YouTube">
-<br><br>
+    <!-- INPUT URL -->
+    <input 
+        type="text" 
+        id="url" 
+        placeholder="🔗 Pega link de YouTube aquí..."
+    >
 
-<button onclick="downloadMP3()">🎧 MP3</button>
-<button onclick="downloadMP4()">🎬 MP4</button>
+    <!-- BOTONES -->
+    <div class="buttons">
+        <button onclick="downloadMP3()" class="btn mp3">🎧 MP3</button>
+        <button onclick="downloadMP4()" class="btn mp4">🎬 MP4</button>
+    </div>
 
-<br><br>
+    <!-- LOADING -->
+    <div id="loading" class="loading hidden">⏳ Procesando...</div>
 
-<input type="text" id="texto" placeholder="Texto para voz">
-<br><br>
+    <!-- INPUT TEXTO -->
+    <input 
+        type="text" 
+        id="texto" 
+        placeholder="🗣️ Escribe texto para voz..."
+    >
 
-<button onclick="voz()">🔊 Generar Voz</button>
+    <!-- BOTÓN VOZ -->
+    <button onclick="voz()" class="btn voz">🔊 Generar Voz</button>
 
 </div>
 
 <script src="script.js"></script>
 
 </body>
+</html>

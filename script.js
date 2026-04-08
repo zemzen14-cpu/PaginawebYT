@@ -1,45 +1,43 @@
-async function downloadMP3() {
-    const url = document.getElementById("url").value;
+// 🔥 Obtener URL del input
+function getURL() {
+    const url = document.getElementById("url").value.trim();
 
     if (!url) {
-        alert("❌ Pon un link");
-        return;
+        alert("⚠️ Pega un link primero");
+        return null;
     }
 
-    try {
-        const api = `https://api.vevioz.com/api/button/mp3/${encodeURIComponent(url)}`;
-        window.open(api, "_blank");
-    } catch (e) {
-        alert("❌ Error al convertir MP3");
-    }
+    return encodeURIComponent(url);
 }
 
-async function downloadMP4() {
-    const url = document.getElementById("url").value;
+// 🎧 DESCARGAR MP3
+function downloadMP3() {
+    const url = getURL();
+    if (!url) return;
 
-    if (!url) {
-        alert("❌ Pon un link");
-        return;
-    }
-
-    try {
-        const api = `https://api.vevioz.com/api/button/mp4/${encodeURIComponent(url)}`;
-        window.open(api, "_blank");
-    } catch (e) {
-        alert("❌ Error al convertir MP4");
-    }
+    // abre descarga en otra pestaña
+    window.open(`/mp3?url=${url}`, "_blank");
 }
 
+// 🎬 DESCARGAR MP4
+function downloadMP4() {
+    const url = getURL();
+    if (!url) return;
+
+    window.open(`/mp4?url=${url}`, "_blank");
+}
+
+// 🔊 GENERAR VOZ
 function voz() {
-    const texto = document.getElementById("texto").value;
+    const texto = document.getElementById("texto").value.trim();
 
     if (!texto) {
-        alert("❌ Escribe texto");
+        alert("⚠️ Escribe un texto primero");
         return;
     }
 
+    // API simple de voz (Google TTS)
     const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(texto)}&tl=es&client=tw-ob`;
 
-    const audio = new Audio(url);
-    audio.play();
+    window.open(url, "_blank");
 }
