@@ -2,7 +2,6 @@ const express = require("express");
 const ytdl = require("@distube/ytdl-core");
 const fs = require("fs");
 const gTTS = require("gtts");
-const path = require("path");
 
 const app = express();
 
@@ -12,19 +11,31 @@ const PORT = process.env.PORT || 3000;
 
 // 🔥 MP3
 app.get("/mp3", async (req, res) => {
-    const url = req.query.url;
-
-    if (!ytdl.validateURL(url)) {
-        return res.send("❌ URL inválida");
-    }
-
-    const file = "audio.mp3";
-
     try {
-        const stream = ytdl(url, { filter: "audioonly" });
+        const url = req.query.url;
+
+        if (!url) return res.send("❌ sin URL");
+
+        if (!ytdl.validateURL(url)) {
+            return res.send("❌ URL inválida (usa video, no playlist)");
+        }
+
+        const file = "audio.mp3";
+
+        const stream = ytdl(url, {
+            filter: "audioonly",
+            quality: "highestaudio",
+            highWaterMark: 1 << 25
+        });
+
         const write = fs.createWriteStream(file);
 
         stream.pipe(write);
+
+        stream.on("error", err => {
+            console.log(err);
+            res.send("❌ Error descargando audio");
+        });
 
         write.on("finish", () => {
             res.download(file, () => {
@@ -33,25 +44,37 @@ app.get("/mp3", async (req, res) => {
         });
 
     } catch (err) {
-        res.send("❌ Error al convertir MP3");
+        console.log(err);
+        res.send("❌ Error servidor");
     }
 });
 
 // 🎬 MP4
 app.get("/mp4", async (req, res) => {
-    const url = req.query.url;
-
-    if (!ytdl.validateURL(url)) {
-        return res.send("❌ URL inválida");
-    }
-
-    const file = "video.mp4";
-
     try {
-        const stream = ytdl(url, { filter: "audioandvideo" });
+        const url = req.query.url;
+
+        if (!url) return res.send("❌ sin URL");
+
+        if (!ytdl.validateURL(url)) {
+            return res.send("❌ URL inválida");
+        }
+
+        const file = "video.mp4";
+
+        const stream = ytdl(url, {
+            quality: "highest",
+            highWaterMark: 1 << 25
+        });
+
         const write = fs.createWriteStream(file);
 
         stream.pipe(write);
+
+        stream.on("error", err => {
+            console.log(err);
+            res.send("❌ Error descargando video");
+        });
 
         write.on("finish", () => {
             res.download(file, () => {
@@ -60,11 +83,12 @@ app.get("/mp4", async (req, res) => {
         });
 
     } catch (err) {
-        res.send("❌ Error al convertir MP4");
+        console.log(err);
+        res.send("❌ Error servidor");
     }
 });
 
-// 🔊 VOZ REAL (SIN API)
+// 🔊 VOZ
 app.get("/voz", (req, res) => {
     const texto = req.query.texto;
 
