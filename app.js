@@ -3,42 +3,23 @@ const path = require("path");
 
 const app = express();
 
-// 🔥 Middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// 🔥 Servir frontend
+// 🔥 Servir archivos estáticos (index.html, style.css, script.js)
 app.use(express.static(path.join(__dirname)));
 
-// 🔥 Ruta health check (Render)
+// 🔥 Ruta de prueba (para verificar que el server está vivo)
 app.get("/health", (req, res) => {
-    res.json({ status: "ok", server: "running 🚀" });
+    res.send("OK 🚀");
 });
 
-// 🔥 Ruta test API
-app.get("/api/status", (req, res) => {
-    res.json({
-        message: "API funcionando 🔥",
-        time: new Date()
-    });
-});
-
-// 🚫 Manejo de rutas no existentes
+// 🔥 Manejo de rutas no encontradas
 app.use((req, res) => {
-    res.status(404).send("❌ Ruta no encontrada");
+    res.status(404).send("❌ Página no encontrada");
 });
 
-// 🚫 Manejo de errores global
-app.use((err, req, res, next) => {
-    console.error("ERROR:", err);
-    res.status(500).json({
-        error: "Error interno del servidor"
-    });
-});
-
-// 🔥 Puerto dinámico (Render obligatorio)
+// 🔥 Puerto dinámico obligatorio para Render
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log("🔥 Servidor PRO corriendo en puerto " + PORT);
+// 🔥 Iniciar servidor (IMPORTANTE: 0.0.0.0)
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`🔥 Servidor corriendo en puerto ${PORT}`);
 });
