@@ -36,6 +36,10 @@ function voz() {
         return;
     }
 
+    const url = encodeURIComponent(texto);
+
+    window.open(`/voz?texto=${url}`, "_blank");
+}
     // API simple de voz (Google TTS)
     const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(texto)}&tl=es&client=tw-ob`;
 
