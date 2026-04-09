@@ -1,45 +1,32 @@
 const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
 const path = require("path");
-const gTTS = require("gtts");
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
-// para leer datos del frontend
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// servir archivos estáticos
+// servir archivos (index.html, script.js, style.css)
 app.use(express.static(__dirname));
 
-// ruta principal
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
+// conexión de usuarios
+io.on("connection", (socket) => {
+  console.log("🟢 Usuario conectado");
 
-// 🔊 GENERAR VOZ
-app.post("/voz", (req, res) => {
-  const texto = req.body.texto;
+  // recibir mensaje
+  socket.on("mensaje", (msg) => {
+    io.emit("mensaje", msg); // enviar a todos
+  });
 
-  if (!texto) {
-    return res.status(400).send("Texto vacío");
-  }
-
-  const archivo = "voz.mp3";
-  const gtts = new gTTS(texto, "es");
-
-  gtts.save(archivo, (err) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send("Error generando voz");
-    }
-
-    res.download(archivo);
+  socket.on("disconnect", () => {
+    console.log("🔴 Usuario desconectado");
   });
 });
 
-// puerto render
+// puerto obligatorio para Render
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log("🔥 Servidor activo en puerto " + PORT);
+server.listen(PORT, () => {
+  console.log("🔥 Chat activo en puerto " + PORT);
 });

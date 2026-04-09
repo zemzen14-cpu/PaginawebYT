@@ -1,138 +1,53 @@
-/* 🔥 RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* 🌑 FONDO GLOBAL */
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #0a0a0a;
-    color: #eaeaea;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  background: #0f0f0f;
+  font-family: Arial;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-/* 🧱 CONTENEDOR */
-.container {
-    width: 95%;
-    max-width: 420px;
-    background: #111;
-    padding: 25px;
-    border-radius: 12px;
-    border: 1px solid #222;
-
-    /* glow rojo */
-    box-shadow:
-        0 0 15px rgba(255, 0, 0, 0.2),
-        0 0 40px rgba(255, 0, 0, 0.1);
-
-    text-align: center;
+.chat-container {
+  width: 90%;
+  max-width: 400px;
+  background: #181818;
+  padding: 20px;
+  border-radius: 15px;
 }
 
-/* 🔥 TITULO */
-h1 {
-    margin-bottom: 10px;
-    font-size: 24px;
-    color: #fff;
-
-    text-shadow: 0 0 10px red;
+#mensajes {
+  height: 300px;
+  overflow-y: auto;
+  background: #111;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
-/* 🧾 SUB */
-.container p {
-    font-size: 14px;
-    color: #aaa;
-    margin-bottom: 20px;
+.msg {
+  background: #272727;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 8px;
 }
 
-/* 🧠 INPUTS */
+.input-box {
+  display: flex;
+}
+
 input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-
-    background: #0d0d0d;
-    border: 1px solid #222;
-    border-radius: 8px;
-
-    color: #fff;
-    font-size: 14px;
-
-    outline: none;
-    transition: 0.2s;
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
 }
 
-input:focus {
-    border: 1px solid red;
-    box-shadow: 0 0 8px red;
-}
-
-/* 🔘 BOTONES */
 button {
-    padding: 12px 18px;
-    margin: 5px;
-    border: none;
-    border-radius: 8px;
-
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-/* 🎧 MP3 */
-button:nth-child(1) {
-    background: #ff0000;
-    color: white;
-}
-
-button:nth-child(1):hover {
-    background: #cc0000;
-    box-shadow: 0 0 10px red;
-}
-
-/* 🎬 MP4 */
-button:nth-child(2) {
-    background: #1a1a1a;
-    color: #fff;
-    border: 1px solid #333;
-}
-
-button:nth-child(2):hover {
-    border: 1px solid red;
-    box-shadow: 0 0 10px red;
-}
-
-/* 🔊 VOZ */
-button:last-child {
-    width: 100%;
-    background: red;
-    color: white;
-    margin-top: 10px;
-}
-
-button:last-child:hover {
-    background: #cc0000;
-    box-shadow: 0 0 12px red;
-}
-
-/* ⏳ TEXTO PROCESO */
-#status {
-    margin-top: 10px;
-    font-size: 13px;
-    color: #aaa;
-}
-
-/* 📱 RESPONSIVE */
-@media (max-width: 500px) {
-    .container {
-        padding: 20px;
-    }
-
-    h1 {
-        font-size: 20px;
-    }
+  margin-left: 5px;
+  padding: 10px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 8px;
 }
