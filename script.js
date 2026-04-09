@@ -1,30 +1,31 @@
-function voz() {
-  const texto = document.getElementById("texto").value;
+const socket = io();
 
-  if (!texto) {
-    alert("Escribe algo");
-    return;
-  }
+// 💬 ENVIAR MENSAJE
+function enviarMensaje() {
+    const input = document.getElementById("mensaje");
+    const msg = input.value;
 
-  fetch("/voz", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ texto })
-  })
-    .then(res => {
-      if (!res.ok) throw new Error("Error");
-      return res.blob();
-    })
-    .then(blob => {
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "voz.mp3";
-      a.click();
-    })
-    .catch(() => {
-      alert("Error generando voz");
-    });
+    if (!msg) return;
+
+    socket.emit("chat message", msg);
+    input.value = "";
+}
+
+// 💬 RECIBIR MENSAJE
+socket.on("chat message", (msg) => {
+    const chat = document.getElementById("chat");
+    const p = document.createElement("p");
+    p.textContent = msg;
+    chat.appendChild(p);
+
+    chat.scrollTop = chat.scrollHeight;
+});
+
+// 🔊 VOZ
+function generarVoz() {
+    const texto = document.getElementById("texto").value;
+
+    if (!texto) return alert("Escribe algo");
+
+    window.location.href = `/voz?text=${encodeURIComponent(texto)}`;
 }
