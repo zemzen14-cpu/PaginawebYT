@@ -1,12 +1,11 @@
 {
-  "name": "ytpaginaweb",
+  "name": "voz-app",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-    "@distube/ytdl-core": "^4.16.12",
     "express": "^4.18.2",
     "gtts": "^0.2.1"
   }

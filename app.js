@@ -1,110 +1,45 @@
 const express = require("express");
-const ytdl = require("@distube/ytdl-core");
-const fs = require("fs");
+const path = require("path");
 const gTTS = require("gtts");
 
 const app = express();
 
+// para leer datos del frontend
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// servir archivos estáticos
 app.use(express.static(__dirname));
 
+// ruta principal
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// 🔊 GENERAR VOZ
+app.post("/voz", (req, res) => {
+  const texto = req.body.texto;
+
+  if (!texto) {
+    return res.status(400).send("Texto vacío");
+  }
+
+  const archivo = "voz.mp3";
+  const gtts = new gTTS(texto, "es");
+
+  gtts.save(archivo, (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send("Error generando voz");
+    }
+
+    res.download(archivo);
+  });
+});
+
+// puerto render
 const PORT = process.env.PORT || 3000;
 
-// 🔥 MP3
-app.get("/mp3", async (req, res) => {
-    try {
-        const url = req.query.url;
-
-        if (!url) return res.send("❌ sin URL");
-
-        if (!ytdl.validateURL(url)) {
-            return res.send("❌ URL inválida (usa video, no playlist)");
-        }
-
-        const file = "audio.mp3";
-
-        const stream = ytdl(url, {
-            filter: "audioonly",
-            quality: "highestaudio",
-            highWaterMark: 1 << 25
-        });
-
-        const write = fs.createWriteStream(file);
-
-        stream.pipe(write);
-
-        stream.on("error", err => {
-            console.log(err);
-            res.send("❌ Error descargando audio");
-        });
-
-        write.on("finish", () => {
-            res.download(file, () => {
-                fs.unlinkSync(file);
-            });
-        });
-
-    } catch (err) {
-        console.log(err);
-        res.send("❌ Error servidor");
-    }
-});
-
-// 🎬 MP4
-app.get("/mp4", async (req, res) => {
-    try {
-        const url = req.query.url;
-
-        if (!url) return res.send("❌ sin URL");
-
-        if (!ytdl.validateURL(url)) {
-            return res.send("❌ URL inválida");
-        }
-
-        const file = "video.mp4";
-
-        const stream = ytdl(url, {
-            quality: "highest",
-            highWaterMark: 1 << 25
-        });
-
-        const write = fs.createWriteStream(file);
-
-        stream.pipe(write);
-
-        stream.on("error", err => {
-            console.log(err);
-            res.send("❌ Error descargando video");
-        });
-
-        write.on("finish", () => {
-            res.download(file, () => {
-                fs.unlinkSync(file);
-            });
-        });
-
-    } catch (err) {
-        console.log(err);
-        res.send("❌ Error servidor");
-    }
-});
-
-// 🔊 VOZ
-app.get("/voz", (req, res) => {
-    const texto = req.query.texto;
-
-    if (!texto) return res.send("❌ sin texto");
-
-    const file = "voz.mp3";
-
-    const gtts = new gTTS(texto, "es");
-
-    gtts.save(file, () => {
-        res.download(file, () => {
-            fs.unlinkSync(file);
-        });
-    });
-});
-
 app.listen(PORT, () => {
-    console.log("🔥 Servidor activo en puerto " + PORT);
+  console.log("🔥 Servidor activo en puerto " + PORT);
 });
